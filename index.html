@@ -247,12 +247,12 @@
 
   // yakınlaştırma: resme tıkla → büyüt, fareyle (telefonda parmakla basılı tutup) gezin, tekrar tıkla → küçült
   const resim = d.querySelector('.cerceve img'), cerceve = d.querySelector('.cerceve');
-  let yakin = false, basis = null, kaydi = 0;
-  function odak(e) {
+  let yakin = false, basis = null, kaydi = 0, kat = 1, ox = 50, oy = 50;
+  const sinirla = v => Math.min(100, Math.max(0, v));
+  function koy(x, y) { ox = sinirla(x); oy = sinirla(y); resim.style.transformOrigin = ox + '% ' + oy + '%'; }
+  function odak(e) {   // fare: imlecin olduğu yere bak
     const r = cerceve.getBoundingClientRect();
-    const x = Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100));
-    const y = Math.min(100, Math.max(0, (e.clientY - r.top) / r.height * 100));
-    resim.style.transformOrigin = x + '% ' + y + '%';
+    koy((e.clientX - r.left) / r.width * 100, (e.clientY - r.top) / r.height * 100);
   }
   function yakinlas(ac, e) {
     yakin = ac;
@@ -260,16 +260,23 @@
     if (ac) {
       if (e) odak(e);
       // tam çözünürlüğe kadar, en az 2.5 kat
-      resim.style.transform = 'scale(' + Math.max(2.5, resim.naturalWidth / resim.clientWidth) + ')';
+      kat = Math.max(2.5, resim.naturalWidth / resim.clientWidth);
+      resim.style.transform = 'scale(' + kat + ')';
     } else {
       resim.style.transform = '';
       resim.style.transformOrigin = '';
     }
   }
-  cerceve.addEventListener('pointerdown', e => { basis = { x: e.clientX, y: e.clientY }; kaydi = 0; });
+  cerceve.addEventListener('pointerdown', e => { basis = { x: e.clientX, y: e.clientY, ox, oy }; kaydi = 0; });
   cerceve.addEventListener('pointermove', e => {
     if (basis) kaydi = Math.max(kaydi, Math.hypot(e.clientX - basis.x, e.clientY - basis.y));
-    if (yakin && (e.pointerType === 'mouse' || basis)) odak(e);   // fare: her harekette; dokunmatik: basılıyken
+    if (!yakin) return;
+    if (e.pointerType === 'mouse') return odak(e);
+    if (!basis) return;
+    // parmak: resim parmakla birlikte kaysın (sürükleme). Odak noktası parmağın tersine gider.
+    const r = cerceve.getBoundingClientRect();
+    koy(basis.ox - (e.clientX - basis.x) / (r.width * (kat - 1)) * 100,
+        basis.oy - (e.clientY - basis.y) / (r.height * (kat - 1)) * 100);
   });
   addEventListener('pointerup', () => basis = null);
   addEventListener('pointercancel', () => basis = null);
