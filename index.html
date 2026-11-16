@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emir Benderlioğlu — Resimler</title>
+<meta name="description" content="Emir Benderlioğlu: pop art ve cyberpunk resimler.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root { --kasa:#3a4430; --ekran:#0b1a10; --fosfor:#7dff7a; --soluk:#3f9a45; --koyu:#123320; --parilti:0 0 8px rgba(125,255,122,.7); }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100vh; padding:16px; font-family:VT323,monospace; font-size:22px; color:var(--fosfor);
+    background:#2b3324 radial-gradient(circle at 30% 20%, #4a5638, #232a1d 70%);
+  }
+
+  /* ---- cihaz kasası ---- */
+  .cihaz {
+    max-width:1400px; min-height:calc(100vh - 32px); margin:0 auto; background:var(--ekran);
+    border:14px solid var(--kasa); border-radius:28px; position:relative; overflow:hidden;
+    box-shadow:inset 0 0 0 2px #556247, inset 0 0 80px rgba(0,0,0,.85), 0 0 0 2px #1a2015;
+    animation:tvAc 1.2s ease-out both;
+  }
+  /* tarama çizgileri + titreme (resimlerin altında kalır) */
+  .cihaz::after {
+    content:""; position:absolute; inset:0; pointer-events:none; z-index:5;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,.25) 0 1px, transparent 1px 3px);
+    animation:titre 5s infinite;
+  }
+  @keyframes titre {
+    0%,90%,100% { background-color:transparent; }
+    91% { background-color:rgba(125,255,122,.10); }
+    92% { background-color:transparent; }
+    93% { background-color:rgba(125,255,122,.16); }
+    95% { background-color:transparent; }
+  }
+  /* yukarıdan aşağı kayan CRT ışık bandı */
+  .cihaz::before {
+    content:""; position:absolute; left:0; right:0; top:-200px; height:200px; z-index:5; pointer-events:none;
+    background:linear-gradient(transparent, rgba(125,255,122,.07) 50%, transparent);
+    animation:bant 7s linear infinite;
+  }
+  @keyframes bant { to { transform:translateY(calc(100vh + 400px)); } }
+
+  /* eski TV açılışı: nokta → yatay çizgi → tam ekran */
+  @keyframes tvAc {
+    0%   { transform:scale(0,.004); filter:brightness(5); }
+    30%  { transform:scale(1,.004); filter:brightness(5); }
+    65%  { transform:scale(1,1);    filter:brightness(1.8); }
+    100% { transform:none;          filter:none; }
+  }
+  @keyframes tvKapan {
+    0%   { transform:none;          filter:none; opacity:1; }
+    50%  { transform:scale(1,.004); filter:brightness(5); opacity:1; }
+    100% { transform:scale(0,.004); filter:brightness(5); opacity:0; }
+  }
+
+  /* ---- başlık ---- */
+  .baslik { padding:28px 24px 8px; position:relative; z-index:6; }
+  .baslik h1 {
+    margin:0; font-weight:400; line-height:.9; font-size:clamp(52px, 10vw, 128px);
+    letter-spacing:.02em; text-shadow:var(--parilti), 0 0 24px rgba(125,255,122,.35);
+  }
+
+  /* ---- sekmeler ---- */
+  .sekmeler { display:flex; flex-wrap:wrap; gap:8px 24px; padding:12px 24px; border-bottom:2px solid var(--koyu); position:relative; z-index:6; }
+  .sekmeler button {
+    font:inherit; font-size:26px; color:var(--soluk); background:none; cursor:pointer;
+    border:2px solid transparent; padding:0 10px; letter-spacing:.08em;
+  }
+  .sekmeler button:hover, .sekmeler button:focus-visible { color:var(--fosfor); outline:none; text-shadow:var(--parilti); }
+  .sekmeler button[aria-selected="true"] { color:var(--fosfor); border-color:var(--fosfor); text-shadow:var(--parilti); }
+
+  /* ---- ekranlar (sekme içerikleri) ---- */
+  .ekran { padding:24px; }
+  .ekran[hidden] { display:none; }
+  .ekran.degisti { animation:sekmeAc .45s ease-out; }
+  @keyframes sekmeAc {
+    0% { clip-path:inset(0 0 100% 0); filter:brightness(2.5); }
+    100% { clip-path:inset(0 0 0 0); filter:none; }
+  }
+
+  .galeri { columns:3 300px; column-gap:16px; }
+  .galeri button {
+    display:block; width:100%; margin:0 0 16px; padding:6px; cursor:zoom-in; break-inside:avoid; font:inherit;
+    background:var(--koyu); border:2px solid var(--koyu); position:relative; z-index:6; /* tarama çizgilerinin üstünde */
+  }
+  /* kırpma resimde, düğmede değil: düğmeye kırpma verilirse görünürlük gözlemcisi tetiklenmiyor */
+  .galeri img { clip-path:inset(50% 0 50% 0); filter:brightness(4); }
+  .galeri button.gorundu img { animation:resimAc .9s ease-out forwards; }
+  @keyframes resimAc {
+    0%   { clip-path:inset(50% 0 50% 0); filter:brightness(4); }
+    35%  { clip-path:inset(49% 0 49% 0); filter:brightness(4); }
+    100% { clip-path:inset(0 0 0 0);     filter:none; }
+  }
+  .galeri button:hover, .galeri button:focus-visible { border-color:var(--fosfor); outline:none; }
+  .galeri img { display:block; width:100%; height:auto; }
+  .galeri small { display:block; text-align:left; padding:4px 2px 0; color:var(--soluk); font-size:20px; }
+  .galeri button:hover small { color:var(--fosfor); }
+
+  .yazi { max-width:720px; font-size:26px; line-height:1.4; position:relative; z-index:6; }
+  .yazi h2 { margin:0 0 16px; font-weight:400; font-size:40px; text-shadow:var(--parilti); }
+  .yazi p { margin:0 0 16px; color:#b9f5b4; }
+  .yazi a { color:var(--fosfor); }
+
+  footer { padding:8px 24px 14px; color:var(--soluk); font-size:18px; border-top:2px solid var(--koyu); position:relative; z-index:6; }
+
+  /* ---- büyük resim: eski monitör açılır gibi ---- */
+  dialog {
+    border:10px solid var(--kasa); border-radius:18px; padding:10px; background:var(--ekran);
+    max-width:96vw; max-height:96vh; box-shadow:0 0 0 2px var(--fosfor), 0 0 40px rgba(125,255,122,.35);
+  }
+  dialog[open] { animation:tvAc .7s ease-out both; }
+  dialog.kapaniyor { animation:tvKapan .4s ease-in both; }
+  dialog::backdrop { background:rgba(5,12,7,.94); }
+  dialog .cerceve { overflow:hidden; }
+  dialog img { display:block; max-width:90vw; max-height:80vh; cursor:zoom-in; transition:transform .3s ease-out; }
+  dialog.yakin img { cursor:zoom-out; touch-action:none; }   /* telefonda parmakla gezinirken sayfa kaymasın */
+  dialog p { width:0; min-width:100%; margin:8px 0 0; color:var(--fosfor); font-family:VT323,monospace; font-size:24px; text-shadow:var(--parilti); }
+  dialog .kapat {
+    position:absolute; top:14px; right:14px; z-index:2; font:22px VT323,monospace; cursor:pointer;
+    background:var(--ekran); color:var(--fosfor); border:2px solid var(--fosfor);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cihaz, .cihaz::after, .cihaz::before, dialog[open], dialog.kapaniyor, .ekran.degisti { animation:none; }
+    .galeri img { clip-path:none; filter:none; animation:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="cihaz">
+  <header class="baslik">
+    <h1 aria-label="Emir Benderlioğlu" id="ad">EMİR BENDERLİOĞLU</h1>
+  </header>
+
+  <nav class="sekmeler" role="tablist">
+    <button role="tab" aria-selected="true" aria-controls="galeri" data-ekran="galeri">GALERİ</button>
+    <button role="tab" aria-selected="false" aria-controls="hakkimda" data-ekran="hakkimda">HAKKIMDA</button>
+    <button role="tab" aria-selected="false" aria-controls="iletisim" data-ekran="iletisim">İLETİŞİM</button>
+  </nav>
+
+  <main>
+    <section class="ekran" id="galeri" role="tabpanel">
+      <!-- Yeni resim: bir <button> satırını kopyala; src = dosya, width/height = piksel boyutu, alt ve small = resmin adı/yılı. -->
+      <div class="galeri">
+        <button><img src="resimler/kelle.jpg" width="1500" height="1496" alt="Kelle, 20x20 cm, tuval üzerine akrilik"><small>&gt; KELLE · 20x20 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/korlerin-gordugu-karanliklara-bakmak.jpg" width="1000" height="1500" alt="Körlerin Gördüğü Karanlıklara Bakmak, 20x30 cm, tuval üzerine akrilik"><small>&gt; KÖRLERİN GÖRDÜĞÜ KARANLIKLARA BAKMAK · 20x30 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/egitim-1-0.jpg" width="1500" height="1050" alt="Eğitim 1.0, 35x50 cm, tuval üzerine akrilik"><small>&gt; EĞİTİM 1.0 · 35x50 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/egitim-2-0.jpg" width="1340" height="2000" alt="Eğitim 2.0, 20x30 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; EĞİTİM 2.0 · 20x30 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/mor.jpg" width="1400" height="2000" alt="Mor, 35x50 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; MOR · 35x50 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/odeme-bilgisi.jpg" width="1050" height="1500" alt="Ödeme Bilgisi, 35x50 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; ÖDEME BİLGİSİ · 35x50 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/kayip.jpg" width="1050" height="1500" alt="Kayıp, 35x50 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; KAYIP · 35x50 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/nosce-te-ipsum.jpg" width="1401" height="2000" alt="Nosce te Ipsum, 35x50 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; NOSCE TE IPSUM · 35x50 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/pazartesi.jpg" width="1126" height="1500" alt="Pazartesi, 30x40 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; PAZARTESİ · 30x40 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/197910.jpg" width="1125" height="1500" alt="197910, 30x40 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; 197910 · 30x40 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/gertrude-maynard.jpg" width="1500" height="1071" alt="Gertrude Maynard, 50x70 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; GERTRUDE MAYNARD · 50x70 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/yuzyilin-hatasi.jpg" width="1429" height="2000" alt="Yüzyılın Hatası, 50x70 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; YÜZYILIN HATASI · 50x70 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/audit-1-0.jpg" width="1428" height="2000" alt="Audit 1.0, 50x70 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; AUDIT 1.0 · 50x70 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/audit-2-0.jpg" width="1071" height="1500" alt="Audit 2.0, 50x70 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; AUDIT 2.0 · 50x70 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/denetimin-sonu.jpg" width="1428" height="2000" alt="Denetimin Sonu, 50x70 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; DENETİMİN SONU · 50x70 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/fortis-et-fidelis.jpg" width="1400" height="2000" alt="Fortis et Fidelis, 35x50 cm, tuval üzerine akrilik" loading="lazy"><small>&gt; FORTIS ET FIDELIS · 35x50 cm · Tuval üzerine akrilik</small></button>
+        <button><img src="resimler/alaskan.jpg" width="1415" height="2000" alt="Alaskan, 20x29 cm, kağıt üzerine akrilik" loading="lazy"><small>&gt; ALASKAN · 20x29 cm · Kağıt üzerine akrilik</small></button>
+        <button><img src="resimler/mavi.jpg" width="1421" height="2000" alt="Mavi, 20x29 cm, kağıt üzerine akrilik" loading="lazy"><small>&gt; MAVİ · 20x29 cm · Kağıt üzerine akrilik</small></button>
+      </div>
+    </section>
+
+    <section class="ekran yazi" id="hakkimda" role="tabpanel" hidden>
+      <h2>&gt; HAKKIMDA</h2>
+      <p>Emir Benderlioğlu (1979, Ankara), sanat eğitimini Ankara Anadolu Güzel Sanatlar Lisesi’nin ardından Hacettepe Üniversitesi Grafik Tasarımı Bölümü’nde tamamladı. Resim, illüstrasyon ve hareketli görüntü alanlarına uzanan üretimi, farklı görsel anlatım biçimlerini bir araya getirir.</p>
+      <p>Ankara’da kamu kurumları ve özel kuruluşlar için grafik tasarım, videografi, illüstrasyon, iki ve üç boyutlu animasyon alanlarında çalıştı. 2004 yılında İstanbul Uluslararası Animasyon Festivali’nde, Yüzyılın Yazgısı adlı kısa animasyon filmiyle Jüri Büyük Ödülü’nü kazandı.</p>
+      <p>2012 yılında Ankara Türk-Amerikan Kültür Merkezi’nde düzenlenen 3 Kuşak Benderlioğlu Karma Resim sergisinde yer aldı. Atıf Benderlioğlu, Reha Benderlioğlu ve Babür Benderlioğlu’nun çalışmalarını da buluşturan sergi, aile içinde kuşaklar boyunca sürdürülen resim pratiğine ortak bir bakış sundu.</p>
+      <p>Emir Benderlioğlu, Hasan Sarıtaş Gallery tarafından temsil edilmektedir.</p>
+    </section>
+
+    <section class="ekran yazi" id="iletisim" role="tabpanel" hidden>
+      <h2>&gt; İLETİŞİM</h2>
+      <p>INSTAGRAM:</p>
+      <p><a href="https://www.instagram.com/emirbenderlioglu/" target="_blank" rel="noopener">&gt; @emirbenderlioglu</a><br>
+         <a href="https://www.instagram.com/emirbenderliogluart/" target="_blank" rel="noopener">&gt; @emirbenderliogluart</a></p>
+    </section>
+  </main>
+
+  <footer>© <span id="yil"></span> EMİR BENDERLİOĞLU</footer>
+</div>
+
+<dialog id="buyuk">
+  <button class="kapat" aria-label="Kapat">[X]</button>
+  <div class="cerceve"><img alt=""></div>
+  <p></p>
+</dialog>
+
+<script>
+  document.getElementById('yil').textContent = new Date().getFullYear();
+  const yavas = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // isim terminalde yazılıyormuş gibi
+  const ad = document.getElementById('ad'), metin = ad.textContent;
+  if (!yavas) {
+    ad.textContent = '';
+    [...metin].forEach((h, i) => setTimeout(() => ad.textContent += h, 1200 + i * 70));
+  }
+
+  // sekmeler: ekran değiştir
+  const sekmeler = document.querySelectorAll('.sekmeler button');
+  function ac(id) {
+    sekmeler.forEach(s => s.setAttribute('aria-selected', s.dataset.ekran === id));
+    document.querySelectorAll('.ekran').forEach(e => {
+      e.hidden = e.id !== id;
+      e.classList.remove('degisti');
+      if (!e.hidden) { void e.offsetWidth; e.classList.add('degisti'); }
+    });
+    history.replaceState(null, '', '#' + id);
+  }
+  sekmeler.forEach(s => s.addEventListener('click', () => ac(s.dataset.ekran)));
+  if (['hakkimda', 'iletisim'].includes(location.hash.slice(1))) ac(location.hash.slice(1));
+  if (location.hash) addEventListener('load', () => scrollTo(0, 0));   // tarayıcı #bağlantıya kaydırmasın, başlık görünsün
+
+  // kaydırınca resimler CRT gibi açılsın
+  let bekleyen = [...document.querySelectorAll('.galeri button')];
+  function kontrol() {
+    let sira = 0;
+    bekleyen = bekleyen.filter(b => {
+      if (b.getBoundingClientRect().top > innerHeight * .9) return true;
+      setTimeout(() => b.classList.add('gorundu'), sira++ * 150);
+      return false;
+    });
+  }
+  addEventListener('scroll', kontrol, { passive: true });
+  addEventListener('resize', kontrol);
+  // açılış animasyonu (1.2 sn) bitmeden bakma: o sırada ekran ezik, hepsi görünür sanılır
+  setTimeout(kontrol, yavas ? 0 : 1300);
+
+  // büyük resim: monitör açılır / kapanır
+  const d = document.getElementById('buyuk');
+  document.querySelector('.galeri').addEventListener('click', e => {
+    const img = e.target.closest('button')?.querySelector('img');
+    if (!img) return;
+    d.querySelector('img').src = img.src;
+    d.querySelector('img').alt = img.alt;
+    d.querySelector('p').textContent = img.nextElementSibling.textContent;   // galerideki yazının aynısı
+    d.classList.remove('kapaniyor');
+    yakinlas(false);
+    d.showModal();
+  });
+
+  // yakınlaştırma: resme tıkla → büyüt, fareyle (telefonda parmakla basılı tutup) gezin, tekrar tıkla → küçült
+  const resim = d.querySelector('.cerceve img'), cerceve = d.querySelector('.cerceve');
+  let yakin = false, basis = null, kaydi = 0;
+  function odak(e) {
+    const r = cerceve.getBoundingClientRect();
+    const x = Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100));
+    const y = Math.min(100, Math.max(0, (e.clientY - r.top) / r.height * 100));
+    resim.style.transformOrigin = x + '% ' + y + '%';
+  }
+  function yakinlas(ac, e) {
+    yakin = ac;
+    d.classList.toggle('yakin', ac);
+    if (ac) {
+      if (e) odak(e);
+      // tam çözünürlüğe kadar, en az 2.5 kat
+      resim.style.transform = 'scale(' + Math.max(2.5, resim.naturalWidth / resim.clientWidth) + ')';
+    } else {
+      resim.style.transform = '';
+      resim.style.transformOrigin = '';
+    }
+  }
+  cerceve.addEventListener('pointerdown', e => { basis = { x: e.clientX, y: e.clientY }; kaydi = 0; });
+  cerceve.addEventListener('pointermove', e => {
+    if (basis) kaydi = Math.max(kaydi, Math.hypot(e.clientX - basis.x, e.clientY - basis.y));
+    if (yakin && (e.pointerType === 'mouse' || basis)) odak(e);   // fare: her harekette; dokunmatik: basılıyken
+  });
+  addEventListener('pointerup', () => basis = null);
+  addEventListener('pointercancel', () => basis = null);
+  resim.addEventListener('click', e => {
+    if (kaydi > 10) return;   // parmakla gezinme bitti, bu bir dokunma değil
+    yakinlas(!yakin, e);
+  });
+  function kapat() {
+    if (yavas) return d.close();
+    d.classList.add('kapaniyor');
+    setTimeout(() => { d.close(); d.classList.remove('kapaniyor'); }, 400);   // kapanış animasyonu 0.4 sn
+  }
+  d.querySelector('.kapat').addEventListener('click', kapat);
+  d.addEventListener('cancel', e => { e.preventDefault(); kapat(); });   // Esc tuşu
+  d.addEventListener('click', e => { if (e.target === d) kapat(); });
+</script>
+</body>
+</html>
