@@ -99,9 +99,11 @@
   .galeri small { display:block; text-align:left; padding:4px 2px 0; color:var(--soluk); font-size:20px; }
   .galeri button:hover small { color:var(--fosfor); }
 
-  .yazi { max-width:720px; font-size:20px; line-height:1.45; position:relative; z-index:6; }
+  .yazi { max-width:1000px; font-size:20px; line-height:1.45; position:relative; z-index:6; }
   .yazi h2 { margin:0 0 16px; font-weight:400; font-size:40px; text-shadow:var(--parilti); }
   .yazi p { margin:0 0 14px; color:#8fbf8a; }
+  .biyo { display:flex; gap:24px; align-items:flex-start; }
+  .biyo img { width:150px; height:auto; flex:none; border:2px solid var(--koyu); }
   .yazi a { color:var(--fosfor); }
 
   footer { padding:8px 24px 14px; color:var(--soluk); font-size:18px; border-top:2px solid var(--koyu); position:relative; z-index:6; }
@@ -131,6 +133,8 @@
     .sekmeler { flex-wrap:nowrap; gap:6px; padding:10px 14px; }
     .sekmeler button { font-size:21px; padding:0 6px; letter-spacing:.02em; }
     .ekran { padding:14px; }
+    .biyo { flex-direction:column; }
+    .biyo img { width:130px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .cihaz, .cihaz::after, .cihaz::before, dialog[open], dialog.kapaniyor, .ekran.degisti { animation:none; }
@@ -177,10 +181,15 @@
 
     <section class="ekran yazi" id="hakkimda" role="tabpanel" hidden>
       <h2>&gt; HAKKIMDA</h2>
-      <p>Emir Benderlioğlu (1979, Ankara), sanat eğitimini Ankara Anadolu Güzel Sanatlar Lisesi’nin ardından Hacettepe Üniversitesi Grafik Tasarımı Bölümü’nde tamamladı. Resim, illüstrasyon ve hareketli görüntü alanlarına uzanan üretimi, farklı görsel anlatım biçimlerini bir araya getirir.</p>
-      <p>Ankara’da kamu kurumları ve özel kuruluşlar için grafik tasarım, videografi, illüstrasyon, iki ve üç boyutlu animasyon alanlarında çalıştı. 2004 yılında İstanbul Uluslararası Animasyon Festivali’nde, Yüzyılın Yazgısı adlı kısa animasyon filmiyle Jüri Büyük Ödülü’nü kazandı.</p>
-      <p>2012 yılında Ankara Türk-Amerikan Kültür Merkezi’nde düzenlenen 3 Kuşak Benderlioğlu Karma Resim sergisinde yer aldı. Atıf Benderlioğlu, Reha Benderlioğlu ve Babür Benderlioğlu’nun çalışmalarını da buluşturan sergi, aile içinde kuşaklar boyunca sürdürülen resim pratiğine ortak bir bakış sundu.</p>
-      <p>Emir Benderlioğlu, Hasan Sarıtaş Gallery tarafından temsil edilmektedir.</p>
+      <div class="biyo">
+        <img src="resimler/emir-benderlioglu.png" width="375" height="480" alt="Emir Benderlioğlu">
+        <div>
+          <p>Emir Benderlioğlu (1979, Ankara), sanat eğitimini Ankara Anadolu Güzel Sanatlar Lisesi’nin ardından Hacettepe Üniversitesi Grafik Tasarımı Bölümü’nde tamamladı. Resim, illüstrasyon ve hareketli görüntü alanlarına uzanan üretimi, farklı görsel anlatım biçimlerini bir araya getirir.</p>
+          <p>Ankara’da kamu kurumları ve özel kuruluşlar için grafik tasarım, videografi, illüstrasyon, iki ve üç boyutlu animasyon alanlarında çalıştı. 2004 yılında İstanbul Uluslararası Animasyon Festivali’nde, Yüzyılın Yazgısı adlı kısa animasyon filmiyle Jüri Büyük Ödülü’nü kazandı.</p>
+          <p>2012 yılında Ankara Türk-Amerikan Kültür Merkezi’nde düzenlenen 3 Kuşak Benderlioğlu Karma Resim sergisinde yer aldı. Atıf Benderlioğlu, Reha Benderlioğlu ve Babür Benderlioğlu’nun çalışmalarını da buluşturan sergi, aile içinde kuşaklar boyunca sürdürülen resim pratiğine ortak bir bakış sundu.</p>
+          <p>Emir Benderlioğlu, Hasan Sarıtaş Gallery tarafından temsil edilmektedir.</p>
+        </div>
+      </div>
     </section>
 
     <section class="ekran yazi" id="iletisim" role="tabpanel" hidden>
