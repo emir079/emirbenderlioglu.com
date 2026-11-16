@@ -123,6 +123,15 @@
     background:var(--ekran); color:var(--fosfor); border:2px solid var(--fosfor);
   }
 
+  /* telefon: sekmeler tek satırda kalsın */
+  @media (max-width: 600px) {
+    body { padding:8px; }
+    .cihaz { border-width:8px; border-radius:20px; }
+    .baslik { padding:20px 14px 6px; }
+    .sekmeler { flex-wrap:nowrap; gap:6px; padding:10px 14px; }
+    .sekmeler button { font-size:21px; padding:0 6px; letter-spacing:.02em; }
+    .ekran { padding:14px; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .cihaz, .cihaz::after, .cihaz::before, dialog[open], dialog.kapaniyor, .ekran.degisti { animation:none; }
     .galeri img { clip-path:none; filter:none; animation:none !important; }
